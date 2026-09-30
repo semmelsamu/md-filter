@@ -1,0 +1,3 @@
+# No frontmatter
+
+![[embed.png]]
