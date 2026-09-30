@@ -11,10 +11,10 @@ import { filterMarkdown } from "md-filter";
 import { z } from "zod";
 
 const { notes, attachments } = await filterMarkdown(
-  "./vault",
-  "./public",
-  z.object({ frontmatter: z.object({ publish: z.literal(true) }) }),
-  { copyAttachments: true },
+    "./vault",
+    "./public",
+    z.object({ frontmatter: z.object({ publish: z.literal(true) }) }),
+    { copyAttachments: true },
 );
 ```
 
@@ -22,30 +22,32 @@ const { notes, attachments } = await filterMarkdown(
 
 1. **Collect.** Every file ending in `.md` below `source` (dot-folders included, symlinks not followed) becomes a record:
 
-   ```ts
-   type MarkdownRecord = {
-     path: string;                         // relative to source, "/"-separated: "notes/foo.md"
-     modified: Date;                       // file modification time
-     frontmatter: Record<string, unknown>; // parsed YAML, {} if absent or invalid
-     content: string;                      // body without the frontmatter
-   };
-   ```
+    ```ts
+    type MarkdownRecord = {
+        path: string; // relative to source, "/"-separated: "notes/foo.md"
+        modified: Date; // file modification time
+        frontmatter: Record<string, unknown>; // parsed YAML, {} if absent or invalid
+        content: string; // body without the frontmatter
+    };
+    ```
 
-   Frontmatter is parsed as YAML 1.2, so unquoted dates like `date: 2024-01-01` stay strings (use `z.coerce.date()` if you need a `Date`). Invalid frontmatter is treated as `{}` and reported with `console.warn`.
+    Frontmatter is parsed as YAML 1.2, so unquoted dates like `date: 2024-01-01` stay strings (use `z.coerce.date()` if you need a `Date`). Invalid frontmatter is treated as `{}` and reported with `console.warn`.
 
 2. **Filter.** A note matches if `filter.safeParse(record).success`. Any Zod schema works:
 
-   ```ts
-   z.object({
-     path: z.string().refine((p) => !p.startsWith("templates/")),
-     modified: z.date().min(new Date("2025-01-01")),
-     frontmatter: z.object({ tags: z.array(z.string()).refine((t) => t.includes("blog")) }),
-   });
-   ```
+    ```ts
+    z.object({
+        path: z.string().refine((p) => !p.startsWith("templates/")),
+        modified: z.date().min(new Date("2025-01-01")),
+        frontmatter: z.object({
+            tags: z.array(z.string()).refine((t) => t.includes("blog")),
+        }),
+    });
+    ```
 
 3. **Copy.** `destination` is **emptied first**, then the matching notes are copied byte for byte, mirroring the folder structure. Links are not rewritten, as they resolve the same way in the destination.
 
-   The function throws if the destination is the source, lies inside it, or contains it.
+    The function throws if the destination is the source, lies inside it, or contains it.
 
 ## Attachments
 
