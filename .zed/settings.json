@@ -1,0 +1,25 @@
+// Format with the repository's Prettier (node_modules/.bin/prettier) and its
+// .prettierrc.json, including the organize-imports plugin.
+{
+    "format_on_save": "on",
+    "prettier": {
+        "allowed": false
+    },
+    "formatter": {
+        "external": {
+            "command": "npx",
+            "arguments": [
+                "--no",
+                "--",
+                "prettier",
+                "--stdin-filepath",
+                "{buffer_path}"
+            ]
+        }
+    },
+    "languages": {
+        "Plain Text": { "formatter": "language_server" },
+        "Git Commit": { "formatter": "language_server" },
+        "Shell Script": { "formatter": "language_server" }
+    }
+}

@@ -1,54 +1,58 @@
 {
-  "name": "md-filter",
-  "version": "0.1.0",
-  "description": "Copy markdown files (and their attachments) whose metadata matches a Zod schema.",
-  "keywords": [
-    "markdown",
-    "obsidian",
-    "frontmatter",
-    "filter",
-    "zod",
-    "publish"
-  ],
-  "license": "MIT",
-  "author": "Samuel Kroiß",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/semmelsamu/md-filter.git"
-  },
-  "bugs": "https://github.com/semmelsamu/md-filter/issues",
-  "homepage": "https://github.com/semmelsamu/md-filter#readme",
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+    "name": "md-filter",
+    "version": "0.1.0",
+    "description": "Copy markdown files (and their attachments) whose metadata matches a Zod schema.",
+    "keywords": [
+        "markdown",
+        "obsidian",
+        "frontmatter",
+        "filter",
+        "zod",
+        "publish"
+    ],
+    "license": "MIT",
+    "author": "Samuel Kroiß",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/semmelsamu/md-filter.git"
+    },
+    "bugs": "https://github.com/semmelsamu/md-filter/issues",
+    "homepage": "https://github.com/semmelsamu/md-filter#readme",
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        }
+    },
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "engines": {
+        "node": ">=22"
+    },
+    "scripts": {
+        "build": "rm -rf dist && tsc -p tsconfig.build.json",
+        "typecheck": "tsc --noEmit",
+        "test": "vitest run",
+        "prepublishOnly": "npm run typecheck && npm test && npm run build",
+        "format": "prettier --write .",
+        "format:check": "prettier --check ."
+    },
+    "peerDependencies": {
+        "zod": "^4.0.0"
+    },
+    "dependencies": {
+        "yaml": "^2.9.1"
+    },
+    "devDependencies": {
+        "@types/node": "^26.6.3",
+        "prettier": "^3.9.9",
+        "prettier-plugin-organize-imports": "^4.3.0",
+        "typescript": "^6.0.3",
+        "vitest": "^5.0.3",
+        "zod": "^4.6.5"
     }
-  },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "engines": {
-    "node": ">=22"
-  },
-  "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "prepublishOnly": "npm run typecheck && npm test && npm run build"
-  },
-  "peerDependencies": {
-    "zod": "^4.0.0"
-  },
-  "dependencies": {
-    "yaml": "^2.9.1"
-  },
-  "devDependencies": {
-    "@types/node": "^26.6.3",
-    "typescript": "^7.0.2",
-    "vitest": "^5.0.3",
-    "zod": "^4.6.5"
-  }
 }
